@@ -9,18 +9,30 @@ function Login() {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoadint] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState({
     email: "",
     password: "",
     general: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoadint(true);
-    console.log("Email:", email);
-    console.log("Password:", password);
+    setLoading(true);
+    try {
+      //simulate a login request
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      console.log("Email:", email);
+      console.log("Password:", password);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.error("An unknown error occurred:", error);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -91,8 +103,16 @@ function Login() {
           </div>
 
           {/* Sign In button */}
-          <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition mb-8">
-            Sign In
+          <button
+            type="submit"
+            disabled={loading}
+            className={`w-full py-3 rounded-lg font-semibold transition mb-8 flex items-center justify-center gap-2 ${
+              loading
+                ? "bg-blue-400 cursor-not-allowed text-white"
+                : "bg-blue-600 hover:bg-blue-700 text-white"
+            }`}
+          >
+            {loading ? "Signing in..." : "Sign In"}
           </button>
 
           {/* Divider */}
