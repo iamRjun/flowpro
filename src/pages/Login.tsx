@@ -51,11 +51,15 @@ function Login() {
           {/* Form fields */}
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Email Address
               </label>
               <input
                 onChange={(e) => setEmail(e.target.value)}
+                autoComplete="email"
                 value={email}
                 type="email"
                 id="email"
@@ -65,12 +69,16 @@ function Login() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Password
               </label>
               <div className="relative">
                 <input
                   onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="current-password"
                   value={password}
                   type={showPassword ? "text" : "password"}
                   id="password"
