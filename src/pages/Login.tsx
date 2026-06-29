@@ -102,7 +102,15 @@ function Login() {
           {/* Remember me & Forgot password */}
           <div className="flex items-center justify-between mt-6 mb-8">
             <label className="flex items-center text-sm text-gray-700">
-              <input type="checkbox" id="remember" className="mr-2" />
+              <input
+                type="checkbox"
+                id="remember"
+                checked={rememberMe}
+                onChange={(e) => {
+                  setRememberMe(e.target.checked);
+                }}
+                className="mr-2"
+              />
               Remember me
             </label>
             <a className="text-sm text-blue-600 hover:text-blue-800" href="#">
