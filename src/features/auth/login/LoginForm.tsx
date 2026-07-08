@@ -6,25 +6,104 @@ function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
   const [error, setError] = useState({
     email: "",
     password: "",
     general: "",
   });
 
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+
+    // Clear email error while typing
+    setError((prev) => ({
+      ...prev,
+      email: "",
+    }));
+  };
+
+  // Wrapper around setPassword
+  // Keeps the same React setter type
+  const handlePasswordChange: React.Dispatch<React.SetStateAction<string>> = (
+    value,
+  ) => {
+    setPassword(value);
+
+    setError((prev) => ({
+      ...prev,
+      password: "",
+    }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Clear old errors
+    setError({
+      email: "",
+      password: "",
+      general: "",
+    });
+
+    let hasError = false;
+
+    // Email validation
+    if (!email.trim()) {
+      setError((prev) => ({
+        ...prev,
+        email: "Email is required.",
+      }));
+
+      hasError = true;
+    } else if (!validateEmail(email)) {
+      setError((prev) => ({
+        ...prev,
+        email: "Please enter a valid email address.",
+      }));
+
+      hasError = true;
+    }
+
+    // Password validation
+    if (!password.trim()) {
+      setError((prev) => ({
+        ...prev,
+        password: "Password is required.",
+      }));
+
+      hasError = true;
+    }
+
+    // Stop submission
+    if (hasError) {
+      return;
+    }
+
     setLoading(true);
 
     try {
+      // Fake API call
       await new Promise((resolve) => setTimeout(resolve, 2000));
+
       console.log("Email:", email);
       console.log("Password:", password);
     } catch (error) {
       if (error instanceof Error) {
-        console.error(error.message);
+        setError((prev) => ({
+          ...prev,
+          general: error.message,
+        }));
       } else {
-        console.error("An unknown error occurred:", error);
+        setError((prev) => ({
+          ...prev,
+          general: "Something went wrong.",
+        }));
       }
     } finally {
       setLoading(false);
@@ -36,37 +115,66 @@ function LoginForm() {
       <div className="min-h-screen flex items-center justify-center bg-[#9FA1FF]">
         <div className="bg-white p-8 md:p-12 rounded-2xl shadow-2xl max-w-md w-full">
           {/* Header */}
+
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
               Welcome Back
             </h1>
+
             <p className="text-gray-500">Sign in to your account</p>
           </div>
 
-          {/* Form fields */}
+          {/* Inputs */}
+
           <div className="space-y-6">
+            {/* Email */}
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Email Address
               </label>
 
               <input
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleEmailChange}
                 value={email}
-                type="email"
+                type="text"
                 placeholder="you@example.com"
                 className="w-full bg-gray-50 border border-gray-300 rounded-lg py-3 px-4"
               />
+
+              {error.email && (
+                <p className="text-red-500 text-sm mt-1">{error.email}</p>
+              )}
             </div>
 
-            <PasswordInput password={password} setPassword={setPassword} />
+            {/* Password */}
+
+            <div>
+              <PasswordInput
+                password={password}
+                setPassword={handlePasswordChange}
+              />
+
+              {error.password && (
+                <p className="text-red-500 text-sm mt-1">{error.password}</p>
+              )}
+            </div>
           </div>
 
-          {/* Sign In button */}
+          {/* General error */}
+
+          {error.general && (
+            <p className="text-red-500 text-sm mt-4 text-center">
+              {error.general}
+            </p>
+          )}
+
+          {/* Button */}
+
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-3 rounded-lg font-semibold transition mb-8 flex items-center justify-center gap-2 ${
+            className={`w-full py-3 rounded-lg font-semibold transition mb-8 mt-6 flex items-center justify-center gap-2 ${
               loading
                 ? "bg-blue-400 cursor-not-allowed text-white"
                 : "bg-blue-600 hover:bg-blue-700 text-white"
@@ -75,7 +183,8 @@ function LoginForm() {
             {loading ? "Signing in..." : "Sign In"}
           </button>
 
-          {/* Divider (FIXED - CLOSED PROPERLY) */}
+          {/* Divider */}
+
           <div className="relative mb-8">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-300"></div>
@@ -88,12 +197,15 @@ function LoginForm() {
             </div>
           </div>
 
-          {/* Social Login */}
+          {/* Social */}
+
           <SocialLogin />
 
           {/* Footer */}
+
           <div className="flex items-center justify-center gap-2 text-sm">
             <p className="text-gray-600">Don't have an account?</p>
+
             <a className="text-blue-600 font-semibold hover:text-blue-800">
               Sign up
             </a>
