@@ -1,6 +1,7 @@
 import { useState } from "react";
 import PasswordInput from "./PasswordInput";
 import SocialLogin from "./SocialLogin";
+import { supabase } from "../../../lib/supabase";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -88,11 +89,23 @@ function LoginForm() {
     setLoading(true);
 
     try {
-      // Fake API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-      console.log("Email:", email);
-      console.log("Password:", password);
+      if (error) {
+        throw error;
+      }
+
+      console.log("Logged in user:", data.user);
+
+      // Optional: clear the form after successful login
+      setEmail("");
+      setPassword("");
+
+      // Later you can redirect the user here:
+      // navigate("/dashboard");
     } catch (error) {
       if (error instanceof Error) {
         setError((prev) => ({
