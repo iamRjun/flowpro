@@ -2,6 +2,7 @@ import { useState } from "react";
 import PasswordInput from "./PasswordInput";
 import SocialLogin from "./SocialLogin";
 import { supabase } from "../../../lib/supabase";
+import { Link } from "react-router-dom";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -219,9 +220,12 @@ function LoginForm() {
           <div className="flex items-center justify-center gap-2 text-sm">
             <p className="text-gray-600">Don't have an account?</p>
 
-            <a className="text-blue-600 font-semibold hover:text-blue-800">
+            <Link
+              to="/signup"
+              className="text-blue-600 font-semibold hover:text-blue-800"
+            >
               Sign up
-            </a>
+            </Link>
           </div>
         </div>
       </div>

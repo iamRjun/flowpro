@@ -298,7 +298,7 @@ function SignUpForm() {
           </div>
 
           {/* Social Login */}
-          <SocialLogin />
+          <SocialLogin isSignUp={true} />
 
           {/* Footer - Link to Login */}
           <div className="flex items-center justify-center gap-2 text-sm">
