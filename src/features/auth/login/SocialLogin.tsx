@@ -2,20 +2,15 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { supabase } from "../../../lib/supabase";
 
-interface SocialLoginProps {
-  isSignUp?: boolean; // Optional prop
-}
-
-function SocialLogin({ isSignUp = false }: SocialLoginProps) {
+function SocialLogin() {
   const handleSocialLogin = async (provider: "google" | "github") => {
     try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
+      const { error } = await supabase.auth.signInWithOAuth({
         provider: provider,
         options: {
           redirectTo: window.location.origin,
         },
       });
-
       if (error) throw error;
     } catch (error) {
       console.error("Social login error:", error);
