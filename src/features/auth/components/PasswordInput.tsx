@@ -4,13 +4,15 @@ import { IoEye, IoEyeOff } from "react-icons/io5";
 interface PasswordInputProps {
   password: string;
   setPassword: React.Dispatch<React.SetStateAction<string>>;
-  showRememberMe?: boolean; // New optional prop
+  showRememberMe?: boolean;
+  disabled?: boolean;
 }
 
 function PasswordInput({
   password,
   setPassword,
   showRememberMe = true,
+  disabled = false,
 }: PasswordInputProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
@@ -34,6 +36,7 @@ function PasswordInput({
             id="password"
             placeholder="••••••••"
             className="w-full bg-gray-50 border border-gray-300 rounded-lg py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+            disabled={disabled}
           />
 
           <button
