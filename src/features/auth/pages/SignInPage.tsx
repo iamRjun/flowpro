@@ -23,9 +23,8 @@ function SignInPage() {
 
       console.log("Logged in user:", data.user);
 
-      // Clear form
       // Redirect to dashboard
-      // navigate("/dashboard");
+      navigate("/dashboard");
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);

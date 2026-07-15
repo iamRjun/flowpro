@@ -36,6 +36,12 @@ function SignInForm({
     setValidationErrors((prev) => ({ ...prev, password: "" }));
   };
 
+  const clearForm = () => {
+    setEmail("");
+    setPassword("");
+    setValidationErrors({ email: "", password: "" });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -65,6 +71,7 @@ function SignInForm({
     if (hasError) return;
 
     await onSubmit(email, password);
+    clearForm();
   };
 
   return (
