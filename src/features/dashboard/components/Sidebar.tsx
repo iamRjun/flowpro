@@ -1,0 +1,109 @@
+import { useLocation } from "react-router-dom";
+import {
+  LayoutDashboard,
+  FolderKanban,
+  ClipboardList,
+  Settings,
+  User,
+  LogOut,
+} from "lucide-react";
+import SidebarItem from "./SidebarItem";
+
+const sidebarItems = [
+  {
+    id: "overview",
+    label: "Overview",
+    icon: LayoutDashboard,
+    path: "/dashboard",
+  },
+  {
+    id: "projects",
+    label: "Projects",
+    icon: FolderKanban,
+    path: "/projects",
+  },
+  {
+    id: "tasks",
+    label: "Tasks",
+    icon: ClipboardList,
+    path: "/tasks",
+  },
+];
+
+const bottomItems = [
+  {
+    id: "settings",
+    label: "Settings",
+    icon: Settings,
+    path: "/settings",
+  },
+  {
+    id: "profile",
+    label: "Profile",
+    icon: User,
+    path: "/profile",
+  },
+];
+
+function Sidebar() {
+  const location = useLocation();
+
+  const isActive = (path: string) => {
+    return (
+      location.pathname === path || location.pathname.startsWith(path + "/")
+    );
+  };
+
+  return (
+    <aside className="fixed left-0 top-0 h-full w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 flex flex-col">
+      {/* Logo */}
+      <div className="flex items-center gap-3 px-6 h-16 border-b border-gray-200 dark:border-gray-700">
+        <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-lg">
+          P
+        </div>
+        <span className="text-xl font-bold text-gray-900 dark:text-white">
+          FlowPro
+        </span>
+      </div>
+
+      {/* Navigation */}
+      <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+        {sidebarItems.map((item) => (
+          <SidebarItem
+            key={item.id}
+            icon={item.icon}
+            label={item.label}
+            path={item.path}
+            active={isActive(item.path)}
+          />
+        ))}
+      </nav>
+
+      {/* Bottom Items */}
+      <div className="px-3 py-4 border-t border-gray-200 dark:border-gray-700 space-y-1">
+        {bottomItems.map((item) => (
+          <SidebarItem
+            key={item.id}
+            icon={item.icon}
+            label={item.label}
+            path={item.path}
+            active={isActive(item.path)}
+          />
+        ))}
+
+        {/* Logout Button */}
+        <button
+          onClick={() => {
+            /* Add logout logic */
+          }}
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 transition-all"
+        >
+          <LogOut size={20} />
+          <span>Logout</span>
+        </button>
+      </div>
+    </aside>
+  );
+}
+
+export default Sidebar;

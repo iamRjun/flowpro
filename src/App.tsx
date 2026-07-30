@@ -7,11 +7,14 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
-        {/* Add more routes as needed */}
+        <Route path="/projects" element={<DashboardPage />} />
+        <Route path="/tasks" element={<DashboardPage />} />
+        <Route path="/settings" element={<DashboardPage />} />
+        <Route path="/profile" element={<DashboardPage />} />
       </Routes>
     </BrowserRouter>
   );
