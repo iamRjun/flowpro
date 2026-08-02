@@ -1,12 +1,5 @@
 import { useLocation } from "react-router-dom";
-import {
-  LayoutDashboard,
-  FolderKanban,
-  ClipboardList,
-  Settings,
-  User,
-  LogOut,
-} from "lucide-react";
+import { LayoutDashboard, FolderKanban, Settings, Users } from "lucide-react";
 import SidebarItem from "./SidebarItem";
 
 const sidebarItems = [
@@ -23,25 +16,16 @@ const sidebarItems = [
     path: "/projects",
   },
   {
-    id: "tasks",
-    label: "Tasks",
-    icon: ClipboardList,
-    path: "/tasks",
+    id: "teams",
+    label: "Teams",
+    icon: Users,
+    path: "/teams",
   },
-];
-
-const bottomItems = [
   {
     id: "settings",
     label: "Settings",
     icon: Settings,
     path: "/settings",
-  },
-  {
-    id: "profile",
-    label: "Profile",
-    icon: User,
-    path: "/profile",
   },
 ];
 
@@ -78,30 +62,6 @@ function Sidebar() {
           />
         ))}
       </nav>
-
-      {/* Bottom Items */}
-      <div className="px-3 py-4 border-t border-gray-200 dark:border-gray-700 space-y-1">
-        {bottomItems.map((item) => (
-          <SidebarItem
-            key={item.id}
-            icon={item.icon}
-            label={item.label}
-            path={item.path}
-            active={isActive(item.path)}
-          />
-        ))}
-
-        {/* Logout Button */}
-        <button
-          onClick={() => {
-            /* Add logout logic */
-          }}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 transition-all"
-        >
-          <LogOut size={20} />
-          <span>Logout</span>
-        </button>
-      </div>
     </aside>
   );
 }

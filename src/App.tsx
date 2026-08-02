@@ -12,9 +12,8 @@ function App() {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/projects" element={<DashboardPage />} />
-        <Route path="/tasks" element={<DashboardPage />} />
+        <Route path="/teams" element={<DashboardPage />} />
         <Route path="/settings" element={<DashboardPage />} />
-        <Route path="/profile" element={<DashboardPage />} />
       </Routes>
     </BrowserRouter>
   );
