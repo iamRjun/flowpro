@@ -3,8 +3,8 @@ import Layout from "../components/Layout";
 import StatsGrid from "../components/StatsGrid";
 import RecentProjects from "../components/RecentProjects";
 import RecentTasks from "../components/RecentTasks";
-import QuickActions from "..//components/QuickActions";
-import { supabase } from "../../../lib/supabase";
+import QuickActions from "../components/QuickActions";
+import { supabase } from "@/lib/supabase";
 import type { Project, Task } from "../components/types";
 
 function DashboardPage() {
@@ -30,14 +30,12 @@ function DashboardPage() {
       } = await supabase.auth.getUser();
       if (!user) return;
 
-      // Fetch projects
       const { data: projectsData } = await supabase
         .from("projects")
         .select("*")
         .eq("user_id", user.id)
         .order("created_at", { ascending: false });
 
-      // Fetch tasks
       const { data: tasksData } = await supabase
         .from("tasks")
         .select("*")
@@ -47,7 +45,6 @@ function DashboardPage() {
       setProjects(projectsData || []);
       setTasks(tasksData || []);
 
-      // Calculate stats
       const completed =
         tasksData?.filter((t) => t.status === "done").length || 0;
       const inProgress =
@@ -67,30 +64,24 @@ function DashboardPage() {
   };
 
   const handleCreateProject = () => {
-    // TODO: Open create project modal
     console.log("Create project");
   };
 
   return (
     <Layout>
       <div className="space-y-6">
-        {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Dashboard
-            </h1>
-            <p className="text-gray-500 dark:text-gray-400 text-sm">
+            <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
+            <p className="text-muted-foreground text-sm">
               Welcome back! Here's what's happening with your projects.
             </p>
           </div>
           <QuickActions onCreateProject={handleCreateProject} />
         </div>
 
-        {/* Stats Grid */}
         <StatsGrid stats={stats} isLoading={loading} />
 
-        {/* Recent Projects & Tasks */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <RecentProjects projects={projects} isLoading={loading} />
           <RecentTasks tasks={tasks} isLoading={loading} />

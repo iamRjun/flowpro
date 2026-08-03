@@ -39,15 +39,13 @@ function Sidebar() {
   };
 
   return (
-    <aside className="fixed left-0 top-0 h-full w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 flex flex-col">
+    <aside className="fixed left-0 top-0 h-full w-64 bg-background border-r border-border flex flex-col">
       {/* Logo */}
-      <div className="flex items-center gap-3 px-6 h-16 border-b border-gray-200 dark:border-gray-700">
-        <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-lg">
+      <div className="flex items-center gap-3 px-6 h-16 border-b border-border">
+        <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold text-lg">
           P
         </div>
-        <span className="text-xl font-bold text-gray-900 dark:text-white">
-          FlowPro
-        </span>
+        <span className="text-xl font-bold text-foreground">FlowPro</span>
       </div>
 
       {/* Navigation */}

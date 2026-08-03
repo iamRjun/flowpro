@@ -9,7 +9,7 @@ function QuickActions({ onCreateProject }: QuickActionsProps) {
     <div className="flex flex-wrap gap-3">
       <button
         onClick={onCreateProject}
-        className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-all"
+        className="inline-flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg text-sm font-medium transition-all"
       >
         <FolderPlus className="w-4 h-4" />
         New Project

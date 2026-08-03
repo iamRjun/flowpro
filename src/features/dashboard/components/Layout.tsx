@@ -14,7 +14,7 @@ function Layout({ children }: LayoutProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex">
+    <div className="min-h-screen bg-background text-foreground flex">
       {/* Sidebar */}
       <div
         className={`
