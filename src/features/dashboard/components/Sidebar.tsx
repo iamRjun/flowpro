@@ -1,6 +1,8 @@
 import { useLocation } from "react-router-dom";
 import { LayoutDashboard, FolderKanban, Settings, Users } from "lucide-react";
 import SidebarItem from "./SidebarItem";
+import MyProjectsLists from "./MyProjectsLists";
+import MyTasksLists from "./MyTasksLists";
 
 const sidebarItems = [
   {
@@ -59,6 +61,8 @@ function Sidebar() {
             active={isActive(item.path)}
           />
         ))}
+        <MyTasksLists />
+        <MyProjectsLists />
       </nav>
     </aside>
   );

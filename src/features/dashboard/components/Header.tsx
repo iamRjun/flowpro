@@ -1,5 +1,6 @@
-import { Menu, Search, Bell, Moon, Sun, User } from "lucide-react";
+import { Menu, Bell, Moon, Sun, User } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
+import SearchInput from "./SearchInput";
 
 interface HeaderProps {
   toggleSidebar?: () => void;
@@ -21,10 +22,7 @@ function Header({ toggleSidebar }: HeaderProps) {
         </button>
 
         {/* Search - Placeholder for now */}
-        <div className="hidden md:flex items-center gap-2 px-3 py-2 bg-muted rounded-lg text-muted-foreground">
-          <Search size={18} />
-          <span className="text-sm">Search...</span>
-        </div>
+        <SearchInput placeholder="Search projects, tasks.." size={18} />
       </div>
 
       {/* Right Section */}

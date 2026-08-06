@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Layout from "../components/Layout";
 import StatsGrid from "../components/StatsGrid";
 import RecentProjects from "../components/RecentProjects";
 import RecentTasks from "../components/RecentTasks";
@@ -68,26 +67,24 @@ function DashboardPage() {
   };
 
   return (
-    <Layout>
-      <div className="space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
-            <p className="text-muted-foreground text-sm">
-              Welcome back! Here's what's happening with your projects.
-            </p>
-          </div>
-          <QuickActions onCreateProject={handleCreateProject} />
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
+          <p className="text-muted-foreground text-sm">
+            Welcome back! Here's what's happening with your projects.
+          </p>
         </div>
-
-        <StatsGrid stats={stats} isLoading={loading} />
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <RecentProjects projects={projects} isLoading={loading} />
-          <RecentTasks tasks={tasks} isLoading={loading} />
-        </div>
+        <QuickActions onCreateProject={handleCreateProject} />
       </div>
-    </Layout>
+
+      <StatsGrid stats={stats} isLoading={loading} />
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <RecentProjects projects={projects} isLoading={loading} />
+        <RecentTasks tasks={tasks} isLoading={loading} />
+      </div>
+    </div>
   );
 }
 
