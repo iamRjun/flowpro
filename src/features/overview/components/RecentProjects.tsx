@@ -1,4 +1,4 @@
-import { type Project } from "./types";
+import { type Project } from "../../dashboard/components/types";
 import { FolderKanban } from "lucide-react";
 
 interface RecentProjectsProps {

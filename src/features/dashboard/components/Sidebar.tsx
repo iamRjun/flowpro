@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { LayoutDashboard, FolderKanban, Settings, Users } from "lucide-react";
 import SidebarItem from "./SidebarItem";
-import MyProjectsLists from "./MyProjectsLists";
+import MyProjectsLists from "../../projects/components/MyProjectsLists";
 import MyTasksLists from "./MyTasksLists";
 
 const sidebarItems = [

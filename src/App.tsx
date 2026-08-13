@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./features/auth/pages/SignInPage";
 import SignUpPage from "./features/auth/pages/SignUpPage";
-import DashboardPage from "./features/dashboard/pages/DashboardPage";
-import ProjectsPage from "./features/dashboard/pages/ProjectsPage";
-import TeamsPage from "./features/dashboard/pages/TeamsPage";
-import SettingsPage from "./features/dashboard/pages/SettingsPage";
-import Layout from "./features/dashboard/layouts/Layout";
+import DashboardPage from "./features/overview/pages/DashboardPage";
+import ProjectsPage from "./features/projects/pages/ProjectsPage";
+import TeamsPage from "./features/Teams/pages/TeamsPage";
+import SettingsPage from "./features/settings/pages/SettingsPage";
+import Layout from "./features/layouts/Layout";
 
 function App() {
   return (

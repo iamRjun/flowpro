@@ -1,4 +1,4 @@
-import type { Task } from "./types";
+import type { Task } from "../../dashboard/components/types";
 import { ClipboardList, Clock } from "lucide-react";
 
 interface RecentTasksProps {

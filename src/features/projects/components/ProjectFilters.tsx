@@ -1,4 +1,4 @@
-import SearchInput from "./SearchInput";
+import SearchInput from "../../dashboard/components/SearchInput";
 import StatusDropdown from "./StatusDropdown";
 import PriorityDropdown from "./PriorityDropdown";
 

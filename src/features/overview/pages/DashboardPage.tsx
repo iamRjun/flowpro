@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import StatsGrid from "../components/StatsGrid";
 import RecentProjects from "../components/RecentProjects";
 import RecentTasks from "../components/RecentTasks";
-import QuickActions from "../components/QuickActions";
 import { supabase } from "@/lib/supabase";
-import type { Project, Task } from "../components/types";
+import type { Project, Task } from "../../dashboard/components/types";
+import NewProjectButton from "../../dashboard/components/NewProjectButton";
+import Modal from "@/features/components/ui/Modal";
+import CreateProjectForm from "../../projects/components/CreateProject/CreateProjectForm";
 
 function DashboardPage() {
   const [loading, setLoading] = useState(true);
@@ -16,10 +18,8 @@ function DashboardPage() {
   });
   const [projects, setProjects] = useState<Project[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
-
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const fetchDashboardData = async () => {
     setLoading(true);
@@ -62,12 +62,23 @@ function DashboardPage() {
     }
   };
 
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
   const handleCreateProject = () => {
-    console.log("Create project");
+    setIsModalOpen(true);
+  };
+
+  const handleProjectCreated = () => {
+    setIsModalOpen(false);
+    setRefreshKey((prev) => prev + 1);
+    fetchDashboardData();
   };
 
   return (
     <div className="space-y-6">
+      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
@@ -75,15 +86,34 @@ function DashboardPage() {
             Welcome back! Here's what's happening with your projects.
           </p>
         </div>
-        <QuickActions onCreateProject={handleCreateProject} />
+        <NewProjectButton onCreateProject={handleCreateProject} />
       </div>
 
+      {/* Stats Grid */}
       <StatsGrid stats={stats} isLoading={loading} />
 
+      {/* Recent Projects & Tasks */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <RecentProjects projects={projects} isLoading={loading} />
+        <RecentProjects
+          key={`projects-${refreshKey}`}
+          projects={projects}
+          isLoading={loading}
+        />
         <RecentTasks tasks={tasks} isLoading={loading} />
       </div>
+
+      {/* Create Project Modal */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Create New Project"
+        maxWidth="2xl"
+      >
+        <CreateProjectForm
+          onSuccess={handleProjectCreated}
+          onCancel={() => setIsModalOpen(false)}
+        />
+      </Modal>
     </div>
   );
 }

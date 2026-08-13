@@ -1,6 +1,6 @@
 import { FolderKanban, ClipboardList, CheckCircle, Timer } from "lucide-react";
 import StatsCard from "./StatsCard";
-import { type DashboardStats } from "./types";
+import { type DashboardStats } from "../../dashboard/components/types";
 
 interface StatsGridProps {
   stats: DashboardStats;
