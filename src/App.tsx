@@ -6,23 +6,27 @@ import ProjectsPage from "./features/projects/pages/ProjectsPage";
 import TeamsPage from "./features/Teams/pages/TeamsPage";
 import SettingsPage from "./features/settings/pages/SettingsPage";
 import Layout from "./features/layouts/Layout";
+import LandingPage from "./features/landing/pages/LandingPage";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
-
+        {/* Public Routes */}
+        <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
 
-        {/* Parent Route */}
+        {/* Protected Routes - Wrapped with Layout */}
         <Route element={<Layout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/teams" element={<TeamsPage />} />
           <Route path="/settings" element={<SettingsPage />} />
         </Route>
+
+        {/* Catch-all - Redirect to landing */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );
