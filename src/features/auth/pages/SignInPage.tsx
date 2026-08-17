@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import LoginForm from "../components/SignInForm";
 import SocialLogin from "../components/SocialLogin";
@@ -7,7 +7,27 @@ import { supabase } from "../../../lib/supabase";
 function SignInPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [checkingAuth, setCheckingAuth] = useState(true);
   const navigate = useNavigate();
+
+  // ✅ Check if user is already logged in
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        if (session) {
+          navigate("/dashboard", { replace: true });
+        }
+      } catch (error) {
+        console.error("Auth check error:", error);
+      } finally {
+        setCheckingAuth(false);
+      }
+    };
+    checkAuth();
+  }, [navigate]);
 
   const handleLogin = async (email: string, password: string) => {
     setIsLoading(true);
@@ -23,8 +43,8 @@ function SignInPage() {
 
       console.log("Logged in user:", data.user);
 
-      // Redirect to dashboard
-      navigate("/dashboard");
+      // ✅ Redirect to dashboard
+      navigate("/dashboard", { replace: true });
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
@@ -35,6 +55,15 @@ function SignInPage() {
       setIsLoading(false);
     }
   };
+
+  // ✅ Show loading while checking auth
+  if (checkingAuth) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#9FA1FF]">
+        <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#9FA1FF]">

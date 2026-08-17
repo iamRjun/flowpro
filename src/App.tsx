@@ -7,6 +7,7 @@ import TeamsPage from "./features/Teams/pages/TeamsPage";
 import SettingsPage from "./features/settings/pages/SettingsPage";
 import Layout from "./features/layouts/Layout";
 import LandingPage from "./features/landing/pages/LandingPage";
+import ProtectedRoute from "./features/components/ProtectedRoute";
 
 function App() {
   return (
@@ -17,8 +18,14 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
 
-        {/* Protected Routes - Wrapped with Layout */}
-        <Route element={<Layout />}>
+        {/* Protected Routes - Wrapped with Layout AND ProtectedRoute */}
+        <Route
+          element={
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
+          }
+        >
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/teams" element={<TeamsPage />} />

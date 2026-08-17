@@ -1,8 +1,15 @@
-import { useLocation } from "react-router-dom";
-import { LayoutDashboard, FolderKanban, Settings, Users } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+  LayoutDashboard,
+  FolderKanban,
+  Settings,
+  Users,
+  LogOut,
+} from "lucide-react";
 import SidebarItem from "./SidebarItem";
 import MyProjectsLists from "../../projects/components/MyProjectsLists";
 import MyTasksLists from "./MyTasksLists";
+import { supabase } from "@/lib/supabase";
 
 const sidebarItems = [
   {
@@ -33,11 +40,22 @@ const sidebarItems = [
 
 function Sidebar() {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const isActive = (path: string) => {
     return (
       location.pathname === path || location.pathname.startsWith(path + "/")
     );
+  };
+
+  // ✅ Logout handler
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      navigate("/login", { replace: true });
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
   };
 
   return (
@@ -64,6 +82,17 @@ function Sidebar() {
         <MyTasksLists />
         <MyProjectsLists />
       </nav>
+
+      {/* ✅ Logout Button at Bottom */}
+      <div className="px-3 py-4 border-t border-border">
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 transition-all"
+        >
+          <LogOut size={20} />
+          <span>Logout</span>
+        </button>
+      </div>
     </aside>
   );
 }

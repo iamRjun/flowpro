@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import SignUpForm from "../components/SignUpForm";
 import SocialLogin from "../components/SocialLogin";
@@ -8,7 +8,27 @@ function SignUpPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [checkingAuth, setCheckingAuth] = useState(true);
   const navigate = useNavigate();
+
+  // ✅ Check if user is already logged in
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        if (session) {
+          navigate("/dashboard", { replace: true });
+        }
+      } catch (error) {
+        console.error("Auth check error:", error);
+      } finally {
+        setCheckingAuth(false);
+      }
+    };
+    checkAuth();
+  }, [navigate]);
 
   const handleSignUp = async (
     email: string,
@@ -38,9 +58,9 @@ function SignUpPage() {
           "✅ Account created! Please check your email for confirmation link.",
         );
 
-        // Redirect to login after 3 seconds
+        // ✅ Redirect to login after 3 seconds
         setTimeout(() => {
-          navigate("/login");
+          navigate("/login", { replace: true });
         }, 3000);
       }
     } catch (error) {
@@ -62,6 +82,15 @@ function SignUpPage() {
       setIsLoading(false);
     }
   };
+
+  // ✅ Show loading while checking auth
+  if (checkingAuth) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#9FA1FF]">
+        <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#9FA1FF]">
@@ -102,7 +131,7 @@ function SignUpPage() {
           <p className="text-gray-600">Already have an account?</p>
           <Link
             to="/login"
-            className="text-blue-600 font-semibold hover:text-blue-800 transition"
+            className="text-blue-600 font-semibold hover:text-blue-800"
           >
             Sign in
           </Link>
