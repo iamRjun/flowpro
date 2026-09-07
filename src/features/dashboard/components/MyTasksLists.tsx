@@ -4,6 +4,8 @@ import { CheckCircle, Circle, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import { ChevronDown } from "lucide-react";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/store/store";
 
 interface Task {
   id: string;
@@ -15,20 +17,18 @@ function MyTasksList() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isOpen, setIsOpen] = useState(true);
 
+  const userId = useSelector((state: RootState) => state.auth.user?.id);
+
   useEffect(() => {
+    if (!userId) return;
     fetchMyTasks();
   }, []);
 
   const fetchMyTasks = async () => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) return;
-
     const { data } = await supabase
       .from("tasks")
       .select("id, title, status")
-      .eq("user_id", user.id)
+      .eq("user_id", userId)
       .limit(5);
 
     if (data) setTasks(data);
@@ -88,3 +88,5 @@ function MyTasksList() {
 }
 
 export default MyTasksList;
+
+//implement tanstack query later

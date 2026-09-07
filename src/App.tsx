@@ -8,34 +8,37 @@ import SettingsPage from "./features/settings/pages/SettingsPage";
 import Layout from "./features/layouts/Layout";
 import LandingPage from "./features/landing/pages/LandingPage";
 import ProtectedRoute from "./features/components/ProtectedRoute";
+import AuthInitializer from "@/features/auth/AuthInitializer";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
+    <AuthInitializer>
+      <BrowserRouter>
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
 
-        {/* Protected Routes - Wrapped with Layout AND ProtectedRoute */}
-        <Route
-          element={
-            <ProtectedRoute>
-              <Layout />
-            </ProtectedRoute>
-          }
-        >
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/projects" element={<ProjectsPage />} />
-          <Route path="/teams" element={<TeamsPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
-        </Route>
+          {/* Protected Routes - Wrapped with Layout AND ProtectedRoute */}
+          <Route
+            element={
+              <ProtectedRoute>
+                <Layout />
+              </ProtectedRoute>
+            }
+          >
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/projects" element={<ProjectsPage />} />
+            <Route path="/teams" element={<TeamsPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+          </Route>
 
-        {/* Catch-all - Redirect to landing */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </BrowserRouter>
+          {/* Catch-all - Redirect to landing */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthInitializer>
   );
 }
 

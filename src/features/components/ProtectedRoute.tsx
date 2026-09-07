@@ -1,32 +1,17 @@
-import { type ReactNode, useEffect, useState } from "react";
+import { type ReactNode } from "react";
 import { Navigate } from "react-router-dom";
-import { supabase } from "@/lib/supabase";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/store/store";
 
 interface ProtectedRouteProps {
   children: ReactNode;
 }
 
 function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const [loading, setLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    checkAuth();
-  }, []);
-
-  const checkAuth = async () => {
-    try {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      setIsAuthenticated(!!session);
-    } catch (error) {
-      console.error("Auth check error:", error);
-      setIsAuthenticated(false);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const loading = useSelector((state: RootState) => state.auth.loading);
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.auth.isAuthenticated,
+  );
 
   if (loading) {
     return (
