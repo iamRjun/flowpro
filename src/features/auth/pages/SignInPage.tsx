@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
 import LoginForm from "../components/SignInForm";
 import SocialLogin from "../components/SocialLogin";
-import { supabase } from "../../../lib/supabase";
+
+import { supabase } from "@/lib/supabase";
 
 function SignInPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+
   const navigate = useNavigate();
 
   const handleLogin = async (email: string, password: string) => {
@@ -19,13 +22,13 @@ function SignInPage() {
         password,
       });
 
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
 
-      console.log("Logged in user:", data.user);
-
-      // Clear form
-      // Redirect to dashboard
-      // navigate("/dashboard");
+      if (data.user) {
+        navigate("/dashboard", { replace: true });
+      }
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
@@ -45,6 +48,7 @@ function SignInPage() {
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             Welcome Back
           </h1>
+
           <p className="text-gray-500">Sign in to your account</p>
         </div>
 
@@ -54,8 +58,9 @@ function SignInPage() {
         {/* Divider */}
         <div className="relative mb-8">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-300"></div>
+            <div className="w-full border-t border-gray-300" />
           </div>
+
           <div className="relative flex justify-center text-sm">
             <span className="px-4 bg-white text-gray-500">
               or continue with
@@ -69,6 +74,7 @@ function SignInPage() {
         {/* Footer */}
         <div className="flex items-center justify-center gap-2 text-sm">
           <p className="text-gray-600">Don't have an account?</p>
+
           <Link
             to="/signup"
             className="text-blue-600 font-semibold hover:text-blue-800"
