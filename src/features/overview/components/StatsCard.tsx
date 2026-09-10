@@ -1,24 +1,11 @@
-import { type LucideIcon } from "lucide-react";
-
 interface StatsCardProps {
   title: string;
   value: number | string;
-  icon: LucideIcon;
-  iconColor?: string;
-  iconBg?: string;
   subtitle?: string;
   trend?: number;
 }
 
-function StatsCard({
-  title,
-  value,
-  icon: Icon,
-  iconColor = "text-primary",
-  iconBg = "bg-primary/10",
-  subtitle,
-  trend,
-}: StatsCardProps) {
+function StatsCard({ title, value, subtitle, trend }: StatsCardProps) {
   return (
     <div className="bg-card rounded-xl border border-border p-6 hover:shadow-lg transition-shadow">
       <div className="flex items-start justify-between">
@@ -37,9 +24,6 @@ function StatsCard({
               {trend >= 0 ? "↑" : "↓"} {Math.abs(trend)}%
             </p>
           )}
-        </div>
-        <div className={`p-3 rounded-lg ${iconBg}`}>
-          <Icon className={`w-5 h-5 ${iconColor}`} />
         </div>
       </div>
     </div>

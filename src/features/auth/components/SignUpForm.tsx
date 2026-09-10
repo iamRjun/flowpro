@@ -22,6 +22,7 @@ function SignUpForm({
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [username, setUsername] = useState("");
+
   const [validationErrors, setValidationErrors] = useState({
     username: "",
     email: "",
@@ -36,99 +37,91 @@ function SignUpForm({
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
-    setValidationErrors((prev) => ({ ...prev, email: "" }));
+
+    setValidationErrors((prev) => ({
+      ...prev,
+      email: "",
+    }));
   };
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
-    setValidationErrors((prev) => ({ ...prev, username: "" }));
+
+    setValidationErrors((prev) => ({
+      ...prev,
+      username: "",
+    }));
   };
 
+  // Compatible with PasswordInput's setPassword prop
   const handlePasswordChange: React.Dispatch<React.SetStateAction<string>> = (
     value,
   ) => {
     setPassword(value);
-    setValidationErrors((prev) => ({ ...prev, password: "" }));
+
+    setValidationErrors((prev) => ({
+      ...prev,
+      password: "",
+    }));
   };
 
   const handleConfirmPasswordChange = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setConfirmPassword(e.target.value);
-    setValidationErrors((prev) => ({ ...prev, confirmPassword: "" }));
+
+    setValidationErrors((prev) => ({
+      ...prev,
+      confirmPassword: "",
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    setValidationErrors({
+    const errors = {
       username: "",
       email: "",
       password: "",
       confirmPassword: "",
-    });
+    };
 
-    let hasError = false;
-
+    // Username validation
     if (!username.trim()) {
-      setValidationErrors((prev) => ({
-        ...prev,
-        username: "Username is required.",
-      }));
-      hasError = true;
-    } else if (username.length < 3) {
-      setValidationErrors((prev) => ({
-        ...prev,
-        username: "Username must be at least 3 characters.",
-      }));
-      hasError = true;
+      errors.username = "Username is required.";
+    } else if (username.trim().length < 3) {
+      errors.username = "Username must be at least 3 characters.";
     }
 
+    // Email validation
     if (!email.trim()) {
-      setValidationErrors((prev) => ({
-        ...prev,
-        email: "Email is required.",
-      }));
-      hasError = true;
-    } else if (!validateEmail(email)) {
-      setValidationErrors((prev) => ({
-        ...prev,
-        email: "Please enter a valid email address.",
-      }));
-      hasError = true;
+      errors.email = "Email is required.";
+    } else if (!validateEmail(email.trim())) {
+      errors.email = "Please enter a valid email address.";
     }
 
-    if (!password.trim()) {
-      setValidationErrors((prev) => ({
-        ...prev,
-        password: "Password is required.",
-      }));
-      hasError = true;
+    // Password validation
+    if (!password) {
+      errors.password = "Password is required.";
     } else if (password.length < 6) {
-      setValidationErrors((prev) => ({
-        ...prev,
-        password: "Password must be at least 6 characters.",
-      }));
-      hasError = true;
+      errors.password = "Password must be at least 6 characters.";
     }
 
-    if (!confirmPassword.trim()) {
-      setValidationErrors((prev) => ({
-        ...prev,
-        confirmPassword: "Please confirm your password.",
-      }));
-      hasError = true;
+    // Confirm password validation
+    if (!confirmPassword) {
+      errors.confirmPassword = "Please confirm your password.";
     } else if (password !== confirmPassword) {
-      setValidationErrors((prev) => ({
-        ...prev,
-        confirmPassword: "Passwords do not match.",
-      }));
-      hasError = true;
+      errors.confirmPassword = "Passwords do not match.";
     }
 
-    if (hasError) return;
+    setValidationErrors(errors);
 
-    await onSubmit(email, password, username);
+    // Stop submission if validation fails
+    if (Object.values(errors).some((error) => error !== "")) {
+      return;
+    }
+
+    await onSubmit(email.trim(), password, username.trim());
   };
 
   return (
@@ -143,17 +136,24 @@ function SignUpForm({
       <div className="space-y-4">
         {/* Username */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="username"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
             Username
           </label>
+
           <input
+            id="username"
             onChange={handleUsernameChange}
             value={username}
             type="text"
             placeholder="johndoe"
-            className="w-full bg-gray-50 border border-gray-300 rounded-lg py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+            autoComplete="username"
             disabled={isLoading}
+            className="w-full bg-gray-50 text-black border border-gray-300 rounded-lg py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none placeholder-gray-400"
           />
+
           {validationErrors.username && (
             <p className="text-red-500 text-sm mt-1">
               {validationErrors.username}
@@ -163,17 +163,24 @@ function SignUpForm({
 
         {/* Email */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
             Email Address
           </label>
+
           <input
+            id="email"
             onChange={handleEmailChange}
             value={email}
-            type="text"
+            type="email"
             placeholder="you@example.com"
-            className="w-full bg-gray-50 border border-gray-300 rounded-lg py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+            autoComplete="email"
             disabled={isLoading}
+            className="w-full bg-gray-50 text-black border border-gray-300 rounded-lg py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none placeholder-gray-400"
           />
+
           {validationErrors.email && (
             <p className="text-red-500 text-sm mt-1">
               {validationErrors.email}
@@ -189,6 +196,7 @@ function SignUpForm({
             showRememberMe={false}
             disabled={isLoading}
           />
+
           {validationErrors.password && (
             <p className="text-red-500 text-sm mt-1">
               {validationErrors.password}
@@ -198,17 +206,24 @@ function SignUpForm({
 
         {/* Confirm Password */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="confirmPassword"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
             Confirm Password
           </label>
+
           <input
+            id="confirmPassword"
             onChange={handleConfirmPasswordChange}
             value={confirmPassword}
             type="password"
             placeholder="••••••••"
-            className="w-full bg-gray-50 border border-gray-300 rounded-lg py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+            autoComplete="new-password"
             disabled={isLoading}
+            className="w-full bg-gray-50 text-black border border-gray-300 rounded-lg py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none placeholder-gray-400"
           />
+
           {validationErrors.confirmPassword && (
             <p className="text-red-500 text-sm mt-1">
               {validationErrors.confirmPassword}
@@ -217,12 +232,12 @@ function SignUpForm({
         </div>
       </div>
 
-      {/* General error */}
+      {/* General Error */}
       {error && (
         <p className="text-red-500 text-sm mt-4 text-center">{error}</p>
       )}
 
-      {/* Button */}
+      {/* Submit Button */}
       <button
         type="submit"
         disabled={isLoading}

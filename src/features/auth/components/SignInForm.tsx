@@ -88,7 +88,7 @@ function SignInForm({
             value={email}
             type="text"
             placeholder="you@example.com"
-            className="w-full bg-gray-50 border border-gray-300 rounded-lg py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+            className="w-full bg-gray-50 text-black border border-gray-300 rounded-lg py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
             disabled={isLoading}
           />
           {validationErrors.email && (

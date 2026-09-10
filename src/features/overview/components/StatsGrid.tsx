@@ -1,4 +1,3 @@
-import { FolderKanban, ClipboardList, CheckCircle, Timer } from "lucide-react";
 import StatsCard from "./StatsCard";
 import { type DashboardStats } from "../../dashboard/components/types";
 
@@ -26,32 +25,10 @@ function StatsGrid({ stats, isLoading = false }: StatsGridProps) {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <StatsCard
-        title="Total Projects"
-        value={stats.totalProjects}
-        icon={FolderKanban}
-      />
-      <StatsCard
-        title="Total Tasks"
-        value={stats.totalTasks}
-        icon={ClipboardList}
-        iconColor="text-secondary-foreground"
-        iconBg="bg-secondary/10"
-      />
-      <StatsCard
-        title="Completed Tasks"
-        value={stats.completedTasks}
-        icon={CheckCircle}
-        iconColor="text-success"
-        iconBg="bg-success/10"
-      />
-      <StatsCard
-        title="In Progress"
-        value={stats.inProgressTasks}
-        icon={Timer}
-        iconColor="text-warning"
-        iconBg="bg-warning/10"
-      />
+      <StatsCard title="Total Projects" value={stats.totalProjects} />
+      <StatsCard title="Total Tasks" value={stats.totalTasks} />
+      <StatsCard title="Completed Tasks" value={stats.completedTasks} />
+      <StatsCard title="In Progress" value={stats.inProgressTasks} />
     </div>
   );
 }
