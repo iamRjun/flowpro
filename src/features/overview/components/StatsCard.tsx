@@ -11,7 +11,7 @@ function StatsCard({ title, value, subtitle, trend }: StatsCardProps) {
       <div className="flex items-start justify-between">
         <div>
           <p className="text-sm font-medium text-muted-foreground">{title}</p>
-          <p className="text-2xl font-bold text-foreground mt-1">{value}</p>
+          <p className="text-4xl font-bold text-foreground mt-1">{value}</p>
           {subtitle && (
             <p className="text-sm text-muted-foreground mt-1">{subtitle}</p>
           )}

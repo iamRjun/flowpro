@@ -3,7 +3,7 @@ const authMapper = (user: any): AuthUser => {
     return {
         id: user.id,
         email: user.email,
-        name: user.user_metadata?.name || "",
+        name: user.user_metadata?.username || "",
     }
 }
 
